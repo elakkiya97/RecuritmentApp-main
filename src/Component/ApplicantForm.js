@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useLocation } from 'react-router-dom'
@@ -105,9 +104,6 @@ const ApplicantForm = () => {
            headers: {
               Authorization: `Bearer ${jwtToken}`,
            },
-           httpsAgent: new https.Agent({  
-              rejectUnauthorized: false  // Disable SSL verification
-           }),
         }
      );
      
