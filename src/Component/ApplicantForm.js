@@ -105,7 +105,7 @@ const ApplicantForm = () => {
               Authorization: `Bearer ${jwtToken}`,
            },
         }
-     );
+     )
      
       
       console.log('Applicant created:', response.data);
