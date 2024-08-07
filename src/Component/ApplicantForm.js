@@ -266,25 +266,18 @@ const ApplicantForm = () => {
                   style={imageStyle1}
                 />
 
-                {/* <ol className="applicant-list"> */}
-                <p>
-                  Make your resume public to be visible to Hiring Employees.
-                  Speed up the application process with quick apply. You can
-                  apply to jobs with just one click? See similar job titles and
-                  skills to help you make your next move.
-                </p>
-                {/* <li className="li">
-                    Make your resume public to be visible to Hiring Employees.
-                  </li>
-                  <li className="li">
-                    Speed up the application process with quick apply. You can
-                    apply to jobs with just one click?
-                  </li>
-                  <li className="li">
-                    See similar job titles and skills to help you make your next
-                    move.
-                  </li> */}
-                {/* </ol> */}
+<ul className="applicant-list">
+  <li className="li">
+    Make your resume public to be visible to Hiring Employees.
+  </li>
+  <li className="li">
+    Speed up the application process with quick apply. You can apply to jobs with just one click.
+  </li>
+  <li className="li">
+    See similar job titles and skills to help you make your next move.
+  </li>
+</ul>
+
               </MDBCol>
               <MDBCol
                 md="6"
@@ -305,7 +298,7 @@ const ApplicantForm = () => {
 
                   <Form method="post">
                     {currentStep === 0 && (
-                      <div className="container" style={{ marginTop: "60px" }}>
+                      <div className="container" style={{ marginTop: "30px" }}>
                         <Row gutter={[16]}>
                         <Col span={12}>
   <Form.Item
@@ -603,8 +596,13 @@ const ApplicantForm = () => {
     rules={[
       {
        
-        message: "Please select your country.",
+        
+         
+          message:
+            "Only letters (a-z, A-Z) are allowed.",
+        
       },
+
     ]}
     labelCol={{ span: 24 }}
     wrapperCol={{ span: 24 }}
@@ -648,6 +646,11 @@ const ApplicantForm = () => {
                                 {
                                   required: true,
                                   message: "Please enter your state.",
+                                },
+                                {
+                                  pattern: "^[a-zA-Z]+$",
+                                  message:
+                                    "Only letters (a-z, A-Z) are allowed.",
                                 },
                               ]}
                               required={false}

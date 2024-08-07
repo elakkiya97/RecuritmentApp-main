@@ -59,10 +59,35 @@ p {
   text-align: center;
 }
 
-.applicant-list {
-  margin-top: 20px;
-  list-style-type: disc;
+
+
+.li {
+  margin-bottom: 10px; /* Space between list items */
+  line-height: 1.5; /* Line height for readability */
+  font-size: 16px; /* Adjust font size if needed */
+  color: #333; /* Text color */
 }
+
+/* Optional: Customize bullet appearance */
+.applicant-list {
+  list-style-position: outside; /* Bullets outside the list */
+}
+
+.applicant-list {
+  list-style-type: disc; /* Use bullets for unordered list */
+  margin: 0; /* Remove default margins around the list */
+  padding: 0; /* Remove default padding around the list */
+}
+
+.applicant-list li {
+  margin: 10px 0; /* Space between list items (top and bottom) */
+  padding: 8px; /* Space inside each list item (all sides) */
+  line-height: 1.5; /* Line height for readability */
+  font-size: 16px; /* Adjust font size if needed */
+  color: #ffffff; /* Text color */
+  
+}
+
 
 .required-asterisk{
   color: red;
