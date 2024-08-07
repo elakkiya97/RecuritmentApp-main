@@ -1,0 +1,96 @@
+.login-page {
+  background-color: #f0f0f0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.logo {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  height: auto;
+}
+
+.login-image {
+  display: block;
+  margin: 0 auto;
+  width: 80%;
+  height: auto;
+}
+
+.login-form {
+  background-color: #105caa;
+}
+
+.cubes-icon {
+  color: white;
+}
+
+.login-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  padding: 5px 20px;
+}
+
+.custom-link {
+  color: rgb(0, 246, 254);
+  text-decoration: underline;
+}
+
+.custom-link:hover {
+  color: #86c1fc;
+  cursor: pointer;
+}
+
+.input-field {
+  color: #105caa;
+  background-color: white;
+  border: 1px solid #105caa;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: white;
+}
+
+.forgot-password {
+  color: rgb(206, 208, 212);
+  text-decoration: none;
+}
+
+.register-link {
+  color: white;
+}
+.input-group {
+  position: relative;
+}
+
+.input-group .form-control {
+  padding-right: 3rem; /* Make space for the icon */
+}
+
+.input-group .input-group-text {
+  position: absolute;
+  right: 0;
+  top: 80%;
+  /* transform: translateY(-50%); */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 1 1rem; /* Adjust padding as needed */
+}
+
+.input-group .input-group-text i {
+  font-size: 1.2rem; /* Adjust icon size as needed */
+}
