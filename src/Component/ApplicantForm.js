@@ -191,10 +191,10 @@ const ApplicantForm = () => {
     { value: 'in', label: 'India', code: '+91',length: 10 },
   ];
   const disabledDate = (current) => {
-    // Can not select days after today
+  
     const today = moment().startOf("day");
     
-    // Calculate the minimum and maximum dates
+    
     const minDate = today.clone().subtract(120, 'years'); // 120 years ago
     const maxDate = today.clone().subtract(0, 'years'); // Today
     
