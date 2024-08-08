@@ -107,34 +107,31 @@ const AppQues = ({ handleNext, handleBack, currentStep }) => {
   const handleSubmit4 = async (e) => {
     e.preventDefault();
     const errors = {};
-    // const phoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
-    // if (!phoneRegex.test(app1queData.refereephoneNo)) {
-    //   errors.phoneNo =
-    //     "Please enter a valid phone number in international format.";
-    // }
+    
     if (!formData.uploadedFile) {
       errors.cvFile = "Please upload your CV file.";
     }
     if (!Object.values(appqueData).every((value) => value)) {
-      errors.common = "Please fill the all fields.";
+      errors.common = "Please fill in all fields.";
     }
     if (!Object.values(app1queData).every((value) => value)) {
-      errors.common = "Please fill the all fields";
+      errors.common = "Please fill in all fields.";
     }
 
     if (Object.keys(errors).length > 0) {
       notification.error({
-        description: errors.common,
+        description: errors.common || errors.cvFile,
       });
       return;
     }
 
-    try { console.log("Submitting form with data:", {
-      ...appqueData,
-      startDate: selectedDate1,
-    });
+    try {
+      console.log("Submitting form with data:", {
+        ...appqueData,
+        startDate: selectedDate1,
+      });
 
-    console.log("Uploaded CV file:", formData.uploadedFile);
+      console.log("Uploaded CV file:", formData.uploadedFile);
 
       await axios.post(
         `${API_BASE_URL}/api/JobApplication/Job`,
@@ -160,7 +157,6 @@ const AppQues = ({ handleNext, handleBack, currentStep }) => {
 
       await axios.post(
         `${API_BASE_URL}/api/FileUploadResponse/upload`,
-
         fileData,
         {
           headers: {
@@ -190,379 +186,385 @@ const AppQues = ({ handleNext, handleBack, currentStep }) => {
 
   return (
     <Form>
-      <div className="container" style={{ marginTop: "90px" }}>
-        <Row gutter={[24, 24]}>
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Referee Name
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="refereename"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the referee name.",
-                },
-                {
-                  pattern: "^[a-zA-Z]+$",
-                  message: "Only letters (a-z, A-Z) are allowed.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Input
-                type="text"
-                id="refereename"
-                name="refereename"
-                value={app1queData.refereename}
-                onChange={(e) =>
-                  handleApp1queDataChange("refereename", e.target.value)
-                }
-                
-                placeholder="Referee name"
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Referee Phone No
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="refereephoneNo"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the referee phone no.",
-                },
-                {
-                  pattern: /^\+[0-9]+$/,
-                  message: "Phone number must contain only digits.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Input
-                type="tel"
-                id="referee phone No"
-                name="refereephoneNo"
-                value={app1queData.refereephoneNo}
-                onChange={(e) =>
-                  handleApp1queDataChange("refereephoneNo", e.target.value)
-                }
-                
-                style={{ flex: 2 }}
-                placeholder="E.g. +94771473328"
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Referee Address
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="refereeAddress"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the referee address.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Input
-                type="text"
-                id="refereeAddress"
-                name="refereeAddress"
-                value={app1queData.refereeAddress}
-                onChange={(e) =>
-                  handleApp1queDataChange("refereeAddress", e.target.value)
-                }
-                placeholder="Referee Address"
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Desired Location
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="desiredLocation"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select the desired location.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Select
-                id="desiredLocation"
-                name="desiredLocation"
-                value={appqueData.desiredLocation}
-                onChange={(value) =>
-                  handleAppqueDataChange("desiredLocation", value)
-                }
-                placeholder="Desired Location"
-              >
-                <Option value="OnSite">OnSite</Option>
-                <Option value="Remote">Remote</Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Where did you hear this opporunity?
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="source"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a option.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Select
-                id="source"
-                name="source"
-                value={appqueData.source}
-                onChange={(value) => handleAppqueDataChange("source", value)}
-                placeholder="source"
-              >
-                <Option value="LinkedIn">LinkedIn</Option>
-                <Option value="Facebook">Facebook</Option>
-                <Option value="Friends">Friends</Option>
-                <Option value="Newspaper">Newspaper</Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  When are you ready to start?
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="startDate"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select the start date.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <DatePicker
-                id="startDate"
-                name="startDate"
-                selected={selectedDate1}
-                disabledDate={disabledDate}
-                onChange={handleDateChange1}
-                dateFormat="MM/dd/yyyy"
-                placeholderText="startDate"
-              />
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  preferred Contact Method
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="preferredContactMethod"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a contact method.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Select
-                id="preferredContactMethod"
-                name="preferredContactMethod"
-                value={appqueData.preferredContactMethod}
-                onChange={(value) =>
-                  handleAppqueDataChange("preferredContactMethod", value)
-                }         
-                placeholder="ContactMethod"
-              >
-                <Option value="Email">Email</Option>
-                <Option value="SMS">SMS</Option>
-                <Option value="OnSite">Facebook</Option>
-                <Option value="Remote">LinkedIn</Option>
-              </Select>
-            </Form.Item>
-          </Col>
-
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Are you looking for a full-time permanent position?
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="isFullTimePosition"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a option.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Radio.Group
-                id="isFullTimePosition"
-                name="isFullTimePosition"
-                checked={appqueData.isFullTimePosition}
-                onChange={(e) =>
-                  handleAppqueDataChange("isFullTimePosition", e.target.checked)
-                }
-              >
-                <Radio value="Yes">Yes</Radio>
-                <Radio value="No">No</Radio>
-              </Radio.Group>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Catergory
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="positionName"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a category.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Select
-                id="positionName"
-                name="positionName"
-                value={positionUserDTO.id} // Assuming positionName is the field representing the selected position
-                onChange={(value) => handleChangeDepartment(value)}
-                placeholder="Category"
-              >
-                {departmentOptions.map((position) => (
-                  <Option key={position.id} value={position.positionName}>
-                    {position.positionName}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              label={
-                <span>
-                  Upload CV
-                  <span className="required-asterisk">*</span>
-                </span>
-              }
-              name="uploadedFile"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select a file.",
-                },
-              ]}
-              required={false}
-              labelCol={{ span: 24 }}
-              wrapperCol={{ span: 24 }}
-            >
-              <Form.Item
-                name="uploadedFile"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please upload a file",
-                  },
-                ]}
-              >
-                <S3Upload
-                  name="uploadedFile"
-                  setFormData={(name, value) =>
-                    setFormData({ ...formData, [name]: value })
-                  }
-                  dynamicPath={dynamicPath}
-                />
-              </Form.Item>
-            </Form.Item>
-          </Col>
-
-          <div
-            className="col-md-12"
-            style={{ textAlign: "right", marginTop: "20px" }}
+    <div className="container" style={{ marginTop: "60px" }}>
+      <Row gutter={[24, 16]}>
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Referee Name
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="refereename"
+            rules={[
+              {
+               
+                message: "Please enter the referee name.",
+              },
+              {
+                pattern: /^[a-zA-Z\s]+$/,
+                message: "Only letters and spaces are allowed.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
           >
-            {currentStep > 0 && (
-              <Button
-                type="button"
-                onClick={handleBack}
-                className="btn btn-primary"
-                style={{ marginRight: "10px" }}
-              >
-                Back
-              </Button>
-            )}
-            {currentStep < stepTitles.length - 1 && (
-              <Button
-                type="submit"
-                onClick={handleSubmit4}
-                className="btn btn-primary"
-              >
-                Next
-              </Button>
-            )}
-          </div>
-        </Row>
-      </div>
-    </Form>
+            <Input
+              type="text"
+              value={app1queData.refereename}
+              onChange={(e) =>
+                handleApp1queDataChange("refereename", e.target.value)
+              }
+              placeholder="Referee name"
+            />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Referee Phone No
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="refereephoneNo"
+            rules={[
+              {
+               
+                message: "Please enter the referee phone no.",
+              },
+              {
+                pattern: /^\+\d{1,9}$/,
+  message: "Phone number must start with + and be followed by up to 9 digits.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Input
+              type="tel"
+              value={app1queData.refereephoneNo}
+              onChange={(e) =>
+                handleApp1queDataChange("refereephoneNo", e.target.value)
+              }
+              placeholder="E.g. +94771473328"
+            />
+          </Form.Item>
+        </Col>
+  
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Referee Address
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="refereeAddress"
+            rules={[
+              {
+               
+                message: "Please enter the referee address.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Input
+              type="text"
+              value={app1queData.refereeAddress}
+              onChange={(e) =>
+                handleApp1queDataChange("refereeAddress", e.target.value)
+              }
+              placeholder="Referee Address"
+            />
+          </Form.Item>
+        </Col>
+  
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Desired Location
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="desiredLocation"
+            rules={[
+              {
+               
+                message: "Please select the desired location.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Select
+              value={appqueData.desiredLocation}
+              onChange={(value) =>
+                handleAppqueDataChange("desiredLocation", value)
+              }
+              placeholder="Desired Location"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              <Option value="OnSite">OnSite</Option>
+              <Option value="Remote">Remote</Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Where did you hear this opportunity?
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="source"
+            rules={[
+              {
+               
+                message: "Please select an option.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Select
+              value={appqueData.source}
+              onChange={(value) => handleAppqueDataChange("source", value)}
+              placeholder="Where did you hear this opportunity?"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              <Option value="LinkedIn">LinkedIn</Option>
+              <Option value="Instagram">Instagram</Option>
+              <Option value="IykonsWebsite">IykonsWebsite</Option>
+              <Option value="Others">Others</Option>
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Are you looking for a full-time position?
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="isFullTimePosition"
+            rules={[
+              {
+               
+                message: "Please select an option.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Radio.Group
+              onChange={(e) =>
+                handleAppqueDataChange("isFullTimePosition", e.target.value)
+              }
+              value={appqueData.isFullTimePosition}
+            >
+              <Radio value={true}>Yes</Radio>
+              <Radio value={false}>No</Radio>
+            </Radio.Group>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                When can you start?
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="startDate"
+            rules={[
+              {
+                
+                message: "Please select a start date.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <DatePicker
+              value={selectedDate1}
+              onChange={handleDateChange1}
+              format="DD/MM/YYYY"
+              disabledDate={disabledDate}
+              placeholder="When can you start?"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+        </Col>
+  
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                What is your preferred method of contact?
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="preferredContactMethod"
+            rules={[
+              {
+                
+                message: "Please select your preferred method of contact.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Select
+              value={appqueData.preferredContactMethod}
+              onChange={(value) =>
+                handleAppqueDataChange("preferredContactMethod", value)
+              }
+              placeholder="Preferred method of contact"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              <Option value="Phone">Phone</Option>
+              <Option value="Email">Email</Option>
+              <Option value="Facebook">Facebook</Option>
+              <Option value="LinkedIn">LinkedIn</Option>
+            </Select>
+          </Form.Item>
+        </Col>
+  
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Are you looking for a full-time permanent position?
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="isFullTimePosition"
+            rules={[
+              {
+               
+                message: "Please select an option.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Radio.Group
+              onChange={(e) =>
+                handleAppqueDataChange("isFullTimePosition", e.target.checked)
+              }
+              value={appqueData.isFullTimePosition}
+            >
+              <Radio value="Yes">Yes</Radio>
+              <Radio value="No">No</Radio>
+            </Radio.Group>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Category
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="positionName"
+            rules={[
+              {
+               
+                message: "Please select a category.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <Select
+              value={positionUserDTO.id}
+              onChange={(value) => handleChangeDepartment(value)}
+              placeholder="Category"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
+            >
+              {departmentOptions.map((position) => (
+                <Option key={position.id} value={position.positionName}>
+                  {position.positionName}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            label={
+              <span>
+                Upload CV
+                <span className="required-asterisk">*</span>
+              </span>
+            }
+            name="uploadedFile"
+            rules={[
+              {
+                
+                message: "Please upload your CV file.",
+              },
+            ]}
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+          >
+            <S3Upload
+              name="uploadedFile"
+              setFormData={(name, value) =>
+                setFormData({ ...formData, [name]: value })
+              }
+              dynamicPath={dynamicPath}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+    </div>
+  
+    <div className="col-md-12" style={{ textAlign: "right", marginTop: "20px" }}>
+      <Button
+        className="custom-button"
+        variant="contained"
+        color="primary"
+        onClick={handleBack}
+        style={{ marginRight: "10px" }}
+      >
+        Back
+      </Button>
+  
+      <Button
+        type="primary"
+        className="custom-button"
+        onClick={handleSubmit4}
+      >
+        {currentStep === stepTitles.length - 1 ? "Finish" : "Next"}
+      </Button>
+    </div>
+  </Form>
+  
   );
 };
+
 export default AppQues;

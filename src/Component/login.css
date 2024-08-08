@@ -78,18 +78,14 @@
 
 .input-group .input-group-text {
   position: absolute;
-  right: 0;
-  top: 80%;
-  /* transform: translateY(-50%); */
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
   border: none;
-  background-color: transparent;
-  cursor: pointer;
-  padding: 1 1rem; /* Adjust padding as needed */
+  color: #105CAA;
 }
+
 
 .input-group .input-group-text i {
   font-size: 1.2rem; /* Adjust icon size as needed */

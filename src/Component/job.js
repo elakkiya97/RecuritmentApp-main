@@ -222,7 +222,11 @@ const Job = ({ handleNext, handleBack, currentStep }) => {
               onChange={(value) =>
                 handleChangeEducationDTO("currentStatus", value)
               }
-              
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
               placeholder="Current Status"
             >
               <Option value="Student">Student</Option>
@@ -256,7 +260,11 @@ const Job = ({ handleNext, handleBack, currentStep }) => {
               onChange={(value) =>
                 handleChangeEducationDTO("qualification", value)
               }
-              
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
               placeholder="Qualification"
             >
               <Option value="Undergraduate">Undergraduate</Option>
@@ -290,7 +298,11 @@ const Job = ({ handleNext, handleBack, currentStep }) => {
               name="fieldOfStudy"
               value={departmentUserDTO.departmentID}
               onChange={(value) => handleChangeDepartment(value)}
-              
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
               placeholder="Field of Study"
             >
               {departmentOptions.map((department) => (
@@ -467,6 +479,11 @@ const Job = ({ handleNext, handleBack, currentStep }) => {
               value={additionalKnownLanguages.additionalKnownLanguages}
               onChange={(value) => handleChangeAdditionalKnownLanguages(value)}
               placeholder="additional Languages"
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
             >
               {additionalLanguageOptions.map((skill) => (
                 <Option key={skill.skillid} value={skill.skillid}>
@@ -499,7 +516,11 @@ const Job = ({ handleNext, handleBack, currentStep }) => {
               mode="multiple"
               value={softSkill.softSkills}
               onChange={(value) => handleChangeSoftSkills(value)}
-              
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().includes(input.toLowerCase())
+              }
               placeholder="SoftSkills"
             >
               {softSkillOptions.map((skill) => (

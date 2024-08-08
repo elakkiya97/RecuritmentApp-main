@@ -11,7 +11,6 @@ import {
   MDBCardImage,
   MDBRow,
   MDBCol,
-  MDBIcon,
   MDBInput,
   MDBBtn,
 } from "mdb-react-ui-kit";
@@ -115,7 +114,7 @@ function Login() {
 
                 <label style={{ color: "white" }}>Email:</label>
                 <MDBInput
-                  wrapperClass="mb-4" 
+                  wrapperClass="mb-4"
                   placeholder="Email address"
                   id="formControlLg"
                   type="email"
@@ -126,8 +125,8 @@ function Login() {
 
                 <label style={{ color: "white" }}>Password:</label>
                 <div className="input-group mb-4">
-                  <MDBInput
-                    wrapperClass="w-100"
+                  <input
+                    className="form-control"
                     placeholder="Password"
                     id="formControlLg"
                     type={passwordVisible ? "text" : "password"}
@@ -157,12 +156,17 @@ function Login() {
                 <a
                   className="custom-link"
                   onClick={(e) => HandleForgotPassword(e)}
+                  style={{ marginTop: "10px" }}
                 >
                   Forgot Password
                 </a>
                 <p className="mb-5 pb-lg-2" style={{ color: "white" }}>
                   Don't have an account?
-                  <a className="custom-link" onClick={(e) => HandleSignup(e)}>
+                  <a
+                    className="custom-link"
+                    onClick={(e) => HandleSignup(e)}
+                    style={{ marginLeft: "10px" }}
+                  >
                     Register Here
                   </a>
                 </p>

@@ -35,7 +35,7 @@ const applicantFormStyle = {
   flexDirection: "column",
   overflowy: "hidden",
 };
-
+const phoneNumberPattern = /^\+\d{1,9}$/;
 const imageStyle = {
   display: "block",
   margin: "0 auto",
@@ -56,6 +56,9 @@ const ApplicantForm = () => {
   const [selectedStep, setSelectedStep] = useState(0);
   const [selectedDate, setSelectedDate] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
+  const [validationError, setValidationError] = useState('');
+  const [phoneNo, setPhoneNo] = useState('');
+  const [countryCode, setCountryCode] = useState('+94');
   const [applicantData, setApplicantData] = useState({
     title: "",
     dob: "22/09/2023",
@@ -184,8 +187,8 @@ const ApplicantForm = () => {
     { value: 'es', label: 'Spain', code: '+34' },
     { value: 'mx', label: 'Mexico', code: '+52' },
     { value: 'jp', label: 'Japan', code: '+81' },
-    { value: 'lk', label: 'Sri Lanka', code: '+94' },
-    { value: 'in', label: 'India', code: '+91' },
+    { code: '+94', label: 'SriLanka', length: 9 },
+    { value: 'in', label: 'India', code: '+91',length: 10 },
   ];
   const disabledDate = (current) => {
     // Can not select days after today
@@ -200,29 +203,27 @@ const ApplicantForm = () => {
   
   
   const handleCountryCodeChange = (value) => {
-    handleChange('countryCode', value);
+    setCountryCode(value);
+    setPhoneNo('');
+    setValidationError('');
   };
 
   const handlePhoneNumberChange = (e) => {
-    handleChange('phoneNo', e.target.value);
+    const value = e.target.value;
+    const country = countryOptions.find(c => c.code === countryCode);
+    const length = country ? country.length : 9;
+    const pattern = new RegExp(`^\\d{${length}}$`);
+
+    setPhoneNo(value);
+
+    if (!pattern.test(value)) {
+      setValidationError(`Phone number must be ${length} digits long.`);
+    } else {
+      setValidationError('');
+    }
   };
 
-  const validatePhoneNumber = (_, value) => {
-    const { countryCode } = applicantData;
-    if (!value) {
-      return Promise.reject('Please enter your phone number.');
-    }
-    if (!countryCode) {
-      return Promise.reject('Please select a country code.');
-    }
-    // Combine country code with phone number
-    const fullPhoneNumber = `${countryCode}${value}`;
-    // Example validation: ensure it starts with a `+` and contains only digits
-    if (!/^\+\d{10,15}$/.test(fullPhoneNumber)) {
-      return Promise.reject('Phone number is not valid.');
-    }
-    return Promise.resolve();
-  };
+  
   return (
     <div className="applicant-form-page" style={applicantFormStyle}>
       <header className="header">
@@ -537,6 +538,7 @@ const ApplicantForm = () => {
       </Form.Item>
     </Col>
                           <Col span={12}>
+                          <Form>
       <Form.Item
         label={
           <span>
@@ -545,7 +547,6 @@ const ApplicantForm = () => {
           </span>
         }
         name="phoneNo"
-        rules={[validatePhoneNumber]}
         required={false}
         labelCol={{ span: 24 }}
         wrapperCol={{ span: 24 }}
@@ -553,7 +554,7 @@ const ApplicantForm = () => {
         <Input.Group compact>
           <Select
             showSearch
-            defaultValue="+94" // Default country code, can be adjusted
+            defaultValue={countryCode}
             style={{ width: '30%' }}
             onChange={handleCountryCodeChange}
             filterOption={(input, option) =>
@@ -561,7 +562,7 @@ const ApplicantForm = () => {
             }
           >
             {countryOptions.map((country) => (
-              <Option key={country.value} value={country.code}>
+              <Option key={country.code} value={country.code}>
                 {country.code} {country.label}
               </Option>
             ))}
@@ -570,18 +571,19 @@ const ApplicantForm = () => {
             type="text"
             id="phoneNo"
             name="phoneNo"
-            value={applicantData.phoneNo}
+            value={phoneNo}
             onChange={handlePhoneNumberChange}
-            placeholder="E.g. 94771473328"
+            placeholder="E.g. 771473328"
             style={{ width: '70%' }}
           />
         </Input.Group>
-        {validationErrors.phoneNo && (
+        {validationError && (
           <span style={{ color: 'red' }}>
-            {validationErrors.phoneNo}
+            {validationError}
           </span>
         )}
       </Form.Item>
+    </Form>
     </Col>
     
                           <Col span={12}>

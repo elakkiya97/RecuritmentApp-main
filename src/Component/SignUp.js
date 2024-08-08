@@ -46,7 +46,6 @@ function Signup() {
   }, []);
 
   const handleRegister = async () => {
-    console.log(registrationData);
     try {
       const response = await axios.post(
         `${API_BASE_URL}/api/Account/register`,
@@ -60,17 +59,18 @@ function Signup() {
       );
 
       if (response && response.data) {
-        setMessage(response.data.message);
+        setMessage(response.data.message || "Registration successful");
         setRegistered(true);
       } else {
         setMessage("Invalid response from the server");
       }
     } catch (error) {
       if (error.response && error.response.data) {
-        setMessage("Error: " + error.response.data.message);
+        setMessage( (error.response.data.message || "Registration unsuccessful"));
       } else {
         setMessage("An error occurred while making the request");
       }
+      setRegistered(false);
     }
   };
 
@@ -182,7 +182,7 @@ function Signup() {
                         type={passwordVisible ? "text" : "password"}
                         value={registrationData.password}
                         onChange={handleInputChange}
-                        style={{ paddingRight: '40px' }}
+                        style={{ paddingRight: "40px" }}
                       />
                       <span
                         className="input-group-text"
@@ -190,7 +190,9 @@ function Signup() {
                         style={{ cursor: "pointer" }}
                       >
                         <i
-                          className={passwordVisible ? 'fas fa-eye' : 'fas fa-eye-slash'}
+                          className={
+                            passwordVisible ? "fas fa-eye" : "fas fa-eye-slash"
+                          }
                         ></i>
                       </span>
                     </div>
